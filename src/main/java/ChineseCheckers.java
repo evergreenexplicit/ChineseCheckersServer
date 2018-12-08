@@ -1,6 +1,6 @@
 public interface ChineseCheckers {
-    void addPlayer();
-    void addBoard();
+    void setBoard();
+    void getBoard();
     void move();
     void jump();
 

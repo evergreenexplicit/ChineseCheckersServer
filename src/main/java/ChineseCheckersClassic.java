@@ -1,15 +1,20 @@
 import java.util.ArrayList;
 
 public class ChineseCheckersClassic implements ChineseCheckers {
-    Board board;
-    ArrayList<Player> players= new ArrayList<Player>();
+    ArrayList<Player> players = new ArrayList<Player>();
 
-    public void addPlayer() {
+    ChineseCheckersClassic(int boardSize, int playerNum){
+
 
     }
 
-    public void addBoard(){
 
+    public void setBoard(){
+
+
+    }
+
+    public void getBoard() {
 
     }
 
