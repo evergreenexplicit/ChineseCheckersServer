@@ -30,24 +30,21 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
 
     public void move(Player player,int x,int y,int newX, int newY) {
-        if (playersTurnIdx == player.idx) {
+
+        if (playersTurnIdx == player.idx) { // one step move
             if (board.getField(newX, newY).getTaken() == -1
                     && ((newX - x == 2 && newY - y == 0)
                     || (newX - x == -2 && newY - y == 0)
                     || (newX - x == 1 && newY - y == 1)
                     || (newX - x == 1 && newY - y == -1)
                     || (newX - x == -1 && newY - y == 1)
-                    || (newX - x == -1 && newY - y == -1)
-
-
-                    )
+                    || (newX - x == -1 && newY - y == -1))
             ) {
                 board.getField(newX, newY).setTaken(player.idx);
                 board.getField(x, y).setTaken(-1);
-
                 notifyAboutMove(player.idx, x, y, newX, newY);
                 nextTurn();
-            } else if (board.getField(newX, newY).getTaken() == -1
+            } else if (board.getField(newX, newY).getTaken() == -1 //jumping through pawns
                     && ((newX - x == 4 && newY - y == 0 && board.getField(x + 2, y).getTaken() != -1)
                     || (newX - x == -4 && newY - y == 0 && board.getField(x - 2, y).getTaken() != -1)
                     || (newX - x == 2 && newY - y == 2 && board.getField(x + 1, y + 1).getTaken() != -1)
@@ -56,11 +53,29 @@ public class ChineseCheckersClassic implements ChineseCheckers {
                     || (newX - x == -2 && newY - y == -2 && board.getField(x - 1, y - 1).getTaken() != -1)
                          )
             ) {
+
                 board.getField(newX, newY).setTaken(player.idx);
                 board.getField(x, y).setTaken(-1);
-                int tempXY[] = new int[]{newX,newY};
-                fieldsInTurn.add(tempXY);
                 notifyAboutMove(player.idx, x, y, newX, newY);
+                fieldsInTurn.add(new int[]{newX,newY}); //todo chance fieldsInTurn, cannot compare;
+             /*   if ( //jumping through pawns
+                        ((board.getField(newX + 4, newY).getTaken()) == -1
+                                && board.getField(newX + 2, newY).getTaken() != -1
+                                && fieldsInTurn.contains(new int[]{newX + 4, newY}))
+                        || (board.getField(newX - 4, newY).getTaken() == -1
+                                && board.getField(newX - 2, newY).getTaken() != -1
+                                && fieldsInTurn.contains(new int[]{newX + 4, newY})
+                            )
+
+                        || (board.getField(newX + 2, newY + 2).getTaken() == -1 && board.getField(newX + 1, newY + 1).getTaken() != -1)
+                        || (board.getField(newX + 2, newY - 2).getTaken() == -1 && board.getField(newX + 1, newY - 1).getTaken() != -1)
+                        || (board.getField(newX - 2, newY + 2).getTaken() == -1 && board.getField(newX - 1, newY + 1).getTaken() != -1)
+                        || (board.getField(newX - 2, newY - 2).getTaken() == -1 && board.getField(newX - 1, newY - 1).getTaken() != -1)
+                )*/
+
+
+            }else{
+                player.output.println("INVALID_MOVE"); //TODO storing last move in client
             }
 
     //TODO zajecie sie endturn;
@@ -96,7 +111,7 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
 
             }
-            public void run() {
+            public void run();
                 try {
                     // The thread is only started after everyone connects.
                     output.println("MESSAGE All players connected");
@@ -108,26 +123,27 @@ public class ChineseCheckersClassic implements ChineseCheckers {
                     while (true) {
                         String request[] = input.readLine().split(" ");
 
-                       switch (request[0]){
-                           case "MOVE":
+                        switch (request[0]) {
+                            case "MOVE":
                              /*  if(players)
                                    break;*/
-                           case "QUIT":
-                               break;
-                       }
+                            case "QUIT":
+                                break;
+                        }
                     }
                 } catch (IOException e) {
                     System.out.println("Player died: " + e);
                 } finally {
-                    try {socket.close();} catch (IOException e) {}
+                    try {
+                        socket.close();
+                    } catch (IOException e) {}
                 }
             }
 
 
         }
+
     }
-
-
 
 
 

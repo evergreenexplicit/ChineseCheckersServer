@@ -1,6 +1,6 @@
 public class Field {
     boolean visible;
-    int taken;
+    int taken; //TODO: enum
     int playersTarget;
     public Field(){
         visible = false;
