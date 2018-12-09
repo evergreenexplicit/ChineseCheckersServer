@@ -1,23 +1,19 @@
 import java.net.ServerSocket;
-
+import java.util.ArrayList;
 public class Server {
         /**
          * Runs the application. Pairs up clients that connect.
          */
         public static void main(String[] args) throws Exception {
             ServerSocket listener = new ServerSocket(8901);
-            System.out.println("Tic Tac Toe Server is Running");
+            System.out.println("ChineseCheckersServer is Running");
             try {
-                while (true) {
-                    ChineseCheckers game = new ChineseCheckersClassic();
-                    Player playerX = new Player(listener.accept(), 'X');
-                    Player playerO = new Player(listener.accept(), 'O');
-                    playerX.setOpponent(playerO);
-                    playerO.setOpponent(playerX);
-                    game.currentPlayer = playerX;
-                    playerX.start();
-                    playerO.start();
+                while (true) { // czy zaczynac, liczba graczy, plansza pozniej
+                    ChineseCheckers game = new ChineseCheckersClassic(4,2);
+                    game.addPlayer(listener.accept());
                 }
+
+
             } finally {
                 listener.close();
             }
@@ -25,3 +21,18 @@ public class Server {
 
 
 }
+/*
+List of commands:
+OUT:
+    INVALID_MOVE
+    OTHER_PLAYER_MOVED
+    VICTORY
+    DEFEAT
+    YOURTURN
+    ENDOFYOURTURN
+
+IN:
+    MOVE
+    ENDMOVE
+
+ */
