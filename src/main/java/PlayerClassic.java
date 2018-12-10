@@ -23,7 +23,7 @@ public class PlayerClassic extends Player {
             if(idx != 0){
                 output.println("WELCOME ");
                 output.println("MESSAGE Waiting for opponents to connect");
-              } else{
+            } else {
                 /*input.readLine();
                  *todo  board size,players number*/
             }
@@ -35,6 +35,12 @@ public class PlayerClassic extends Player {
 
 
         }
+    }
+    public void setRules(){
+
+    }
+    public void send(String command){
+        this.output.println(command);
     }
     public void run(){
         try {
