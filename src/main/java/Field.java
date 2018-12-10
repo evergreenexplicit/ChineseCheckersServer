@@ -1,10 +1,12 @@
 public class Field {
     boolean visible;
-    int taken; //TODO: enum
+    int taken;
+    int playerTarget;
     int playersTarget;
     public Field(){
         visible = false;
         taken = -1;
+        playerTarget = -1;
     }
     void setVisible(boolean visible){
         this.visible = visible;
@@ -17,5 +19,11 @@ public class Field {
     }
     void setTaken(int taken){
         this.taken = taken;
+    }
+    int getPlayerTarget(){
+        return playerTarget;
+    }
+    void setPlayerTarget(int playerTarget){
+        this.playerTarget = playerTarget;
     }
 }

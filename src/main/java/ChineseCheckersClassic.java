@@ -1,29 +1,25 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
 public class ChineseCheckersClassic implements ChineseCheckers {
-    ArrayList<Player> players = new ArrayList<Player>();
-    Board board;
-    int playersTurnIdx;
-    ArrayList<int[]> fieldsInTurn = new ArrayList<int[]>();
-    ChineseCheckersClassic(int boardSize, int playerNum){
+    private ArrayList<Player> players = new ArrayList<Player>();
+    private Board board;
+    private int playerTurnIdx =0;
+    private ArrayList<Integer[]> fieldsInTurn = new ArrayList<Integer[]>();
+    ChineseCheckersClassic(){
 
 
     }
     public void addPlayer(Socket socket){
         int idx = players.size();
-        players.add(new Player(socket,idx));
+        players.add(new PlayerClassic(socket,idx,this));
     }
     public void setBoard(){
-        board = new Board( 4);
+        board = new BoardClassic(4);
     }
 
-    public void getBoard() {
-
+    public Board getBoard() {
+            return board;
     }
 
 
@@ -31,7 +27,8 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
     public void move(Player player,int x,int y,int newX, int newY) {
 
-        if (playersTurnIdx == player.idx) { // one step move
+        if (playerTurnIdx == player.idx) {
+            /* one step move */
             if (board.getField(newX, newY).getTaken() == -1
                     && ((newX - x == 2 && newY - y == 0)
                     || (newX - x == -2 && newY - y == 0)
@@ -43,8 +40,9 @@ public class ChineseCheckersClassic implements ChineseCheckers {
                 board.getField(newX, newY).setTaken(player.idx);
                 board.getField(x, y).setTaken(-1);
                 notifyAboutMove(player.idx, x, y, newX, newY);
-                nextTurn();
-            } else if (board.getField(newX, newY).getTaken() == -1 //jumping through pawns
+                nextTurn(player.idx);
+                /*jumping through pawns*/
+            } else if (board.getField(newX, newY).getTaken() == -1
                     && ((newX - x == 4 && newY - y == 0 && board.getField(x + 2, y).getTaken() != -1)
                     || (newX - x == -4 && newY - y == 0 && board.getField(x - 2, y).getTaken() != -1)
                     || (newX - x == 2 && newY - y == 2 && board.getField(x + 1, y + 1).getTaken() != -1)
@@ -57,93 +55,38 @@ public class ChineseCheckersClassic implements ChineseCheckers {
                 board.getField(newX, newY).setTaken(player.idx);
                 board.getField(x, y).setTaken(-1);
                 notifyAboutMove(player.idx, x, y, newX, newY);
-                fieldsInTurn.add(new int[]{newX,newY}); //todo chance fieldsInTurn, cannot compare;
-             /*   if ( //jumping through pawns
-                        ((board.getField(newX + 4, newY).getTaken()) == -1
-                                && board.getField(newX + 2, newY).getTaken() != -1
-                                && fieldsInTurn.contains(new int[]{newX + 4, newY}))
-                        || (board.getField(newX - 4, newY).getTaken() == -1
-                                && board.getField(newX - 2, newY).getTaken() != -1
-                                && fieldsInTurn.contains(new int[]{newX + 4, newY})
-                            )
-
-                        || (board.getField(newX + 2, newY + 2).getTaken() == -1 && board.getField(newX + 1, newY + 1).getTaken() != -1)
-                        || (board.getField(newX + 2, newY - 2).getTaken() == -1 && board.getField(newX + 1, newY - 1).getTaken() != -1)
-                        || (board.getField(newX - 2, newY + 2).getTaken() == -1 && board.getField(newX - 1, newY + 1).getTaken() != -1)
-                        || (board.getField(newX - 2, newY - 2).getTaken() == -1 && board.getField(newX - 1, newY - 1).getTaken() != -1)
-                )*/
 
 
             }else{
-                player.output.println("INVALID_MOVE"); //TODO storing last move in client
+                 player.output.println("INVALID_MOVE"); //TODO storing last move in client
             }
 
-    //TODO zajecie sie endturn;
-        }
+    //TODO taking care of endturn;
+        } else
+            player.output.println("NOT_YOUR_TURN");
     }
-    void notifyAboutMove(int senderIdx,int x,int y,int newX,int newY){
+    void notifyAboutMove(int senderIdx,int x,int y,int newX,int newY){ //todo separate class?
         for(int i = 0; i < players.size();i++){
             if(senderIdx != i) // no need to alarm when right move;
-             players.get(i).output.println("MOVE " + x + " " + y + " " + newX + " " + newY);//TODO: sending and finishing move
+             players.get(i).output.println("OPPONENT_MOVED " + x + " " + y + " " + newX + " " + newY);//TODO:  finishing move
         }
     }
-    void nextTurn(){
+    void nextTurn(int playerIdx){
+        if (playerIdx != playerTurnIdx) {
+            players.get(playerIdx).output.println("NOT_YOUR_TURN");
+            return;
 
+        }else {
+            fieldsInTurn.clear();
+            playerTurnIdx++;
+            if (players.size() == playerTurnIdx)
+                playerTurnIdx = 0;
+            for (int i = 0; i < players.size(); i++)
+                players.get(i).output.println("TURN " + playerTurnIdx);//TODO: sending and finishing move
+        }
     }//TODO
 
-    public class Player extends Thread {
-        BufferedReader input;
-        PrintWriter output;
-        Socket socket;
-        int idx;
 
-        public Player(Socket socket, int idx) {
-            this.socket = socket;
-            this.idx = idx;
-            try {
-                input = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-                output = new PrintWriter(socket.getOutputStream(), true);
-                output.println("WELCOME ");
-                output.println("MESSAGE Waiting for opponents to connect");
-            } catch (IOException e) {
-                System.out.println("Player died: " + e);
-
-
-            }
-            public void run();
-                try {
-                    // The thread is only started after everyone connects.
-                    output.println("MESSAGE All players connected");
-
-                    // Tell the first player that it is her turn.
-                    //TODO: who's first
-
-                    // Repeatedly get commands from the client and process them.
-                    while (true) {
-                        String request[] = input.readLine().split(" ");
-
-                        switch (request[0]) {
-                            case "MOVE":
-                             /*  if(players)
-                                   break;*/
-                            case "QUIT":
-                                break;
-                        }
-                    }
-                } catch (IOException e) {
-                    System.out.println("Player died: " + e);
-                } finally {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {}
-                }
-            }
-
-
-        }
-
-    }
 
 
 

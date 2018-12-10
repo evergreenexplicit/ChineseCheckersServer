@@ -9,7 +9,8 @@ public class Server {
             System.out.println("ChineseCheckersServer is Running");
             try {
                 while (true) { // czy zaczynac, liczba graczy, plansza pozniej
-                    ChineseCheckers game = new ChineseCheckersClassic(4,2);
+                    ChineseCheckers game = new ChineseCheckersClassic();
+                    game.addPlayer(listener.accept());
                     game.addPlayer(listener.accept());
                 }
 
@@ -25,7 +26,7 @@ public class Server {
 List of commands:
 OUT:
     INVALID_MOVE
-    OTHER_PLAYER_MOVED
+    OPPONENT_MOVED
     VICTORY
     DEFEAT
     YOURTURN
