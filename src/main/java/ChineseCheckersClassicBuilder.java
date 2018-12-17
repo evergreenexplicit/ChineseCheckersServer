@@ -7,13 +7,13 @@ public class ChineseCheckersClassicBuilder {
     int playersNumber;
     public void create(ChineseCheckers game,int port) throws IOException {
         ServerSocket listener = new ServerSocket(port);
-        ArrayList<Player> playersAtStart = new ArrayList<Player>();
+        ArrayList<Player> playersAtStart = new ArrayList<>();
         System.out.println("ChineseCheckersServer is running");
-        playersAtStart.add(new PlayerClassic(listener.accept(),0,game));
+        playersAtStart.add(new Player(listener.accept(),0,game));
         setRules(playersAtStart.get(0));
         try {
             for(int i = 1;i <playersNumber;i++){
-                playersAtStart.add(new PlayerClassic(listener.accept(),i,game));
+                playersAtStart.add(new Player(listener.accept(),i,game));
             }
             game.setBoard();
             for(int i = 0;i <playersNumber;i++){
@@ -30,10 +30,16 @@ public class ChineseCheckersClassicBuilder {
     }
     public void setRules(Player player) {
         try {
-
-            String request[] = player.input.readLine().split(" ");
-            if(request[0].equals("RULES"))
-            playersNumber =  Integer.parseInt(request[1]);
+            String request;
+            while (true) {
+                request = player.input.readLine();
+                if(request.startsWith("CLASSIC")){
+                    break;
+                }
+            }
+            String split[] = request.split("_");
+            if(split[0].equals("RULES"))
+            playersNumber =  Integer.parseInt(split[1]);
 
         } catch (IOException e) {
             System.out.println("Player died: " + e);
