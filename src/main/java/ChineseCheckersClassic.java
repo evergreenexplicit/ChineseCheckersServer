@@ -11,7 +11,11 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
 
     public void addPlayers(ArrayList<Player> players){
+
         this.players = players;
+        for(int i = 0;i<this.players.size();i++)
+            players.get(i).start();
+
     }
     public Player getPlayer(int idx){
         return players.get(idx);

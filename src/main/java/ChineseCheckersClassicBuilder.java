@@ -16,9 +16,7 @@ public class ChineseCheckersClassicBuilder {
                 playersAtStart.add(new Player(listener.accept(),i,game));
             }
             game.setBoard();
-            for(int i = 0;i <playersNumber;i++){
-               game.addPlayers(playersAtStart);
-            }
+            game.addPlayers(playersAtStart);
 
 
         } finally {
