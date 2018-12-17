@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChineseCheckersClassicBuilder {
-    int playersNumber;
-    public void create(ChineseCheckers game,int port) throws IOException {
-        ServerSocket listener = new ServerSocket(port);
+
+    public void create(ChineseCheckers game, int playersNumber,ServerSocket listener,Player admin) throws IOException {
         ArrayList<Player> playersAtStart = new ArrayList<>();
-        System.out.println("ChineseCheckersServer is running");
-        playersAtStart.add(new Player(listener.accept(),0,game));
-        setRules(playersAtStart.get(0));
+        playersAtStart.add(admin);
+        admin.setGame(game);
         try {
-            for(int i = 1;i <playersNumber;i++){
-                playersAtStart.add(new Player(listener.accept(),i,game));
+            for (int i = 1; i < playersNumber; i++) {
+                playersAtStart.add(new Player(listener.accept(), i));
+                playersAtStart.get(i).setGame(game);
+                for(int j = 0; j< playersAtStart.size();j++){
+                    playersAtStart.get(j).output.println(playersAtStart.size() + "players out of" + playersNumber);
+                }
             }
             game.setBoard();
             game.addPlayers(playersAtStart);
@@ -24,24 +26,6 @@ public class ChineseCheckersClassicBuilder {
         }
 
 
-
-    }
-    public void setRules(Player player) {
-        try {
-            String request;
-            while (true) {
-                request = player.input.readLine();
-                if(request.startsWith("CLASSIC")){
-                    break;
-                }
-            }
-            String split[] = request.split("_");
-            if(split[0].equals("RULES"))
-            playersNumber =  Integer.parseInt(split[1]);
-
-        } catch (IOException e) {
-            System.out.println("Player died: " + e);
-        }
     }
 }
 /*

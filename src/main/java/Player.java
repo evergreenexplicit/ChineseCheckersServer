@@ -11,17 +11,13 @@ public class Player extends Thread {
     int idx;
     ChineseCheckers game;
 
-    public Player(Socket socket, int idx,ChineseCheckers game) {
-        this.game = game;
+    public Player(Socket socket, int idx) {
         this.socket = socket;
         this.idx = idx;
         try {
             input = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
-            if(idx == 0){
-                output.println("FIRST");
-            }
 
 
 
@@ -32,6 +28,11 @@ public class Player extends Thread {
 
         }
     }
+
+    public void setGame(ChineseCheckers game){
+     this.game = game;
+    }
+
     public void send(String command){
         this.output.println(command);
     }

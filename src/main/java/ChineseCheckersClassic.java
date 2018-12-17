@@ -61,7 +61,7 @@ public class ChineseCheckersClassic implements ChineseCheckers {
         }
 
     }
-    private void possibleJumps(Player player, int x, int y){
+    private void possibleJumps(Player player, int x, int y){ //todo checking whether middle field is taken
         if(board.getField(x,y).getTaken() == -1
                 && board.getField(x, y).getVisible()){
             if(isInPossibleMoves(x,y)) {
