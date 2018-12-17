@@ -10,9 +10,9 @@ public class PlayerClassic extends Player {
     PrintWriter output;
     Socket socket;
     int idx;
-    ChineseCheckersClassic game;
+    ChineseCheckers game;
 
-    public PlayerClassic(Socket socket, int idx,ChineseCheckersClassic game) {
+    public PlayerClassic(Socket socket, int idx,ChineseCheckers game) {
         this.game = game;
         this.socket = socket;
         this.idx = idx;
@@ -36,9 +36,6 @@ public class PlayerClassic extends Player {
 
         }
     }
-    public void setRules(){
-
-    }
     public void send(String command){
         this.output.println(command);
     }
@@ -55,15 +52,24 @@ public class PlayerClassic extends Player {
                 String request[] = input.readLine().split(" ");
 
                 switch (request[0]) {
-                    case "MOVE":
+                    case "MOVE_REQ":
                              game.move(this,
                                      Integer.parseInt(request[1]),
                                      Integer.parseInt(request[2]),
                                      Integer.parseInt(request[3]),
                                      Integer.parseInt(request[4])
                              );
-                    case "END_TURN":
+                    case "END_TURN_REQ":
                         game.nextTurn(idx);
+                        break;
+
+
+                    case "POSSIBLE_MOVES_REQ":
+                        game.possibleMoves(this,
+                                Integer.parseInt(request[1]),
+                                Integer.parseInt(request[2]),
+                                false
+                                );
                         break;
                 }
             }

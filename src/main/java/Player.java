@@ -8,6 +8,5 @@ public abstract class Player extends Thread {
     Socket socket;
     int idx;
     ChineseCheckersClassic game;
-    void send(String command);
-    String receive();
+    abstract void send(String command);
 }

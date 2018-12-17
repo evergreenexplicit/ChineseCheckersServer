@@ -1,21 +1,30 @@
 import org.junit.Test;
 
+import java.net.Socket;
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ChineseCheckersClassicTest {
+public class ChineseTest {
 
     @Test
     public void shouldMoveTest(){
+        ArrayList<Player> players = new ArrayList<Player>();
         ChineseCheckersClassic  game = new ChineseCheckersClassic();
-        PlayerClassic player = new PlayerClassic(null,0,game);
+        PlayerClassic player = new PlayerClassic(new Socket(),0,game);
+        players.add(player);
+        game.addPlayers(players);
+        game.addPlayers( players );
         game.setBoard();
         game.getBoard().fillBoardForTwo();
         game.move(player,9,3,10,4);
         assertTrue(-1 == game.getBoard().getField(9,3).getTaken());
         assertTrue(0 == game.getBoard().getField(10,4).getTaken());
+        //need to mock socket connection
     }
-    @Test public void shouldJumpTest(){
+    @Test
+    public void shouldJumpTest(){
         ChineseCheckersClassic  game = new ChineseCheckersClassic();
         PlayerClassic player = new PlayerClassic(null,0,game);
         game.setBoard();

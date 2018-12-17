@@ -1,12 +1,12 @@
 public class BoardClassic implements Board {
     private Field[][] fields;
     private int sideLength;
-    private int boardHeight;
-    private int boardWidth;
+    private int vertical;
+    private int horizontal;
     public BoardClassic(int sideLength){
         this.sideLength = sideLength;
-        this.boardHeight = 4*sideLength+2;
-        this.boardWidth = 6*sideLength+2;
+        this.vertical = 4*sideLength+1;
+        this.horizontal = 6*sideLength+1;
         fields = new Field[6*sideLength+1][4*sideLength+1];
         for(int i = 0; i < 6*sideLength+1 ; i++)
             for(int j = 0; j < 3*sideLength+1 ; j++)
@@ -65,21 +65,22 @@ public class BoardClassic implements Board {
         }
     }
     public void createBoard(){ // TODO check
-        for(int j = 0; j < boardHeight; j++)
-            for(int i = 0; i < boardWidth ; i++) {
+        for (int j = 0; j < vertical; j++) {
+            for (int i = 0; i < horizontal; i++) {
+
+                fields[i][j] = new Field();
+
                 fields[i][j].setVisible(false);
                 if (j < sideLength){
-                    if ((i >= boardWidth/2 - j) && (i <= boardWidth/2 + j)){
+                    if ((i >= horizontal/2 - j) && (i <= horizontal/2 + j)){
                         fields[i][j].setVisible(true);
                     }
-                } else if (j >= boardHeight - sideLength){
-                    if ((i >= (boardWidth / 2) - (boardWidth - j - 1))
-                     && (i <= boardWidth / 2 + (boardHeight - j - 1))){
+                } else if (j >= vertical - sideLength){
+                    if ((i >= (horizontal / 2) - (vertical - j - 1)) && (i <= horizontal / 2 + (vertical - j - 1))){
                         fields[i][j].setVisible(true);
                     }
                 } else {
-                    if((i >= (boardWidth / 2) - (2 * sideLength + Math.abs(2 * sideLength - j)))
-                    && (i <= (boardWidth / 2) + (2 * sideLength + Math.abs(2 * sideLength - j)))){
+                    if((i >= (horizontal / 2) - (2 * sideLength + Math.abs(2 * sideLength - j))) && (i <= (horizontal / 2) + (2 * sideLength + Math.abs(2 * sideLength - j)))){
                         fields[i][j].setVisible(true);
                     }
                 }
@@ -93,7 +94,7 @@ public class BoardClassic implements Board {
                     }
                 }
 
-
+            }
         }
     }
 }
