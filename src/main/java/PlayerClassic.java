@@ -20,14 +20,12 @@ public class PlayerClassic extends Player {
             input = new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
             output = new PrintWriter(socket.getOutputStream(), true);
-            if(idx != 0){
+
                 output.println("WELCOME ");
                 output.println("MESSAGE Waiting for opponents to connect");
-            } else {
-                /*input.readLine();
-                 *todo  board size,players number*/
+            if(idx == 0){
+                output.println("FIRST");
             }
-
 
 
         } catch (IOException e) {
