@@ -14,7 +14,9 @@ public class ChineseCheckersClassicBuilder {
                 playersAtStart.add(new Player(listener.accept(), i));
                 playersAtStart.get(i).setGame(game);
                 for(int j = 0; j< playersAtStart.size();j++){
-                    playersAtStart.get(j).output.println(playersAtStart.size() + "players out of" + playersNumber);
+                    playersAtStart.get(j).send(
+                           "MESSAGE " + playersAtStart.size() + " players out of" + playersNumber
+                    );
                 }
             }
             game.setBoard();
@@ -67,3 +69,5 @@ IN:
     POSSIBLE_MOVES_REQ
     END_TURN_REQ
  */
+
+//TODO: fillboard 4,6, terms of win,tests, mockito

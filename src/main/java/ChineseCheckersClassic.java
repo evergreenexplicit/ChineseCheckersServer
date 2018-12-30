@@ -8,7 +8,8 @@ public class ChineseCheckersClassic implements ChineseCheckers {
     private List<Integer> possibleMovesList= new ArrayList<>();
     private Board board;
     private int playerTurnIdx =0;
-
+    private int goodPawnsAtTarget[][];
+    private int badPawnsAtTarget[][];
 
     public void addPlayers(ArrayList<Player> players){
 
@@ -30,6 +31,10 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
 
     public void possibleMoves(Player player,int x,int y,boolean onlyJumps){
+        if (playerTurnIdx != player.idx || player.idx != board.getField(x,y).getTaken()) {
+            player.send("INVALID_MOVE");
+            return;
+        }
         if(!onlyJumps) {
             possibleOneStepMoves(player,x + 2, y);
             possibleOneStepMoves(player,x - 2, y);
@@ -38,18 +43,24 @@ public class ChineseCheckersClassic implements ChineseCheckers {
             possibleOneStepMoves(player,x + 1, y - 1);
             possibleOneStepMoves(player,x + 1, y + 1);
         }
-        possibleJumps(player,x-4,y);
-        possibleJumps(player,x+4,y);
-        possibleJumps(player,x-2,y-2);
-        possibleJumps(player,x-2,y+2);
-        possibleJumps(player,x+2,y-2);
-        possibleJumps(player,x+2,y+2);
+        possibleJumps(player,x-2,y,x-4,y);
+        possibleJumps(player,x+2,y,x+4,y);
+        possibleJumps(player,x-1,y-1,x-2,y-2);
+        possibleJumps(player,x-1,y+1,x-2,y+2);
+        possibleJumps(player,x+1,y-1,x+2,y-2);
+        possibleJumps(player,x+1,y+1,x+2,y+2);
         if(!onlyJumps){
+            if(board.getField(x,y).getPlayerTarget() == player.idx)
+                for(int i =0;i<possibleMovesList.size();i+=2)
+                    if(board.getField(possibleMovesList.get(i),possibleMovesList.get(i+1)).getPlayerTarget() != player.idx){
+                        possibleMovesList.remove(i+1);
+                        possibleMovesList.remove(i);
+                    }
             String out ="";
             for(int i =0;i<possibleMovesList.size();i++)
                 out+=possibleMovesList.get(i) + " ";
             player.send("POSSIBLE_MOVES " + out);
-            possibleMovesList.clear();
+
         }
 
     }
@@ -61,10 +72,11 @@ public class ChineseCheckersClassic implements ChineseCheckers {
         }
 
     }
-    private void possibleJumps(Player player, int x, int y){ //todo checking whether middle field is taken
+    private void possibleJumps(Player player,int middleX,int middleY, int x, int y){ //todo checking whether middle field is taken
         if(board.getField(x,y).getTaken() == -1
-                && board.getField(x, y).getVisible()){
-            if(isInPossibleMoves(x,y)) {
+                && board.getField(x, y).getVisible()
+                && board.getField(middleX, middleY).getTaken() != -1){
+            if(!isInPossibleMoves(x,y)) {
                 possibleMovesList.add(x);
                 possibleMovesList.add(y);
                 possibleMoves(player,x,y,true);
@@ -79,56 +91,29 @@ public class ChineseCheckersClassic implements ChineseCheckers {
         }
         return false;
     }
-    public void move(Player player,int x,int y,int newX, int newY) {
+    public boolean tryMove(Player player,int x,int y,int newX, int newY) {
 
-        if (playerTurnIdx != player.idx) {
-            player.send("INVALID_MOVE");
-            return;
-        }
-        if(board.getField(x,y).getPlayerTarget() == player.idx
-         && board.getField(newX,newY).getPlayerTarget() != player.idx){
-            player.send("INVALID_MOVE");
-            return;
-        }
 
         /* one step move */
-        if (board.getField(newX, newY).getTaken() == -1
-                && ((newX - x == 2 && newY - y == 0)
-                || (newX - x == -2 && newY - y == 0)
-                || (newX - x == 1 && newY - y == 1)
-                || (newX - x == 1 && newY - y == -1)
-                || (newX - x == -1 && newY - y == 1)
-                || (newX - x == -1 && newY - y == -1))
-        ) {
+        if (isInPossibleMoves(newX,newY)) {
 
             board.getField(newX, newY).setTaken(player.idx);
             board.getField(x, y).setTaken(-1);
-            notifyAboutMove(player.idx, x, y, newX, newY);
-            nextTurn(player.idx);
+
             /*jumping through pawns*/
-        } else if (board.getField(newX, newY).getTaken() == -1
-                && ((newX - x == 4 && newY - y == 0 && board.getField(x + 2, y).getTaken() != -1)
-                || (newX - x == -4 && newY - y == 0 && board.getField(x - 2, y).getTaken() != -1)
-                || (newX - x == 2 && newY - y == 2 && board.getField(x + 1, y + 1).getTaken() != -1)
-                || (newX - x == 2 && newY - y == -2 && board.getField(x + 1, y - 1).getTaken() != -1)
-                || (newX - x == -2 && newY - y == 2 && board.getField(x - 1, y + 1).getTaken() != -1)
-                || (newX - x == -2 && newY - y == -2 && board.getField(x - 1, y - 1).getTaken() != -1)
-                     )
-        ) {
-
-            board.getField(newX, newY).setTaken(player.idx);
-            board.getField(x, y).setTaken(-1);
-            notifyAboutMove(player.idx, x, y, newX, newY);
+            return true;
 
 
-        }else{
-             player.send("INVALID_MOVE");
-        }
+        }else if(x != newX || y !=newY)
+            player.send("INVALID_MOVE");
+
+
+        return false;
 
 
 
     }
-    void notifyAboutMove(int senderIdx,int x,int y,int newX,int newY){ //todo  SEPARATE CLASSES FROM EACH OTHER
+    public void notifyAboutMove(int senderIdx,int x,int y,int newX,int newY){ //todo  SEPARATE CLASSES FROM EACH OTHER
         for(int i = 0; i < players.size();i++){
             if(senderIdx != i) // no need to alarm when right move;
              players.get(i).send("OPPONENT_MOVED " + x + " " + y + " " + newX + " " + newY);
@@ -136,18 +121,18 @@ public class ChineseCheckersClassic implements ChineseCheckers {
     }
     public void nextTurn(int playerIdx){
         if (playerIdx != playerTurnIdx) {
-            players.get(playerIdx).send("NOT_YOUR_TURN");
             return;
 
         }else {
+            possibleMovesList.clear();
             playerTurnIdx++;
             if (players.size() == playerTurnIdx)
                 playerTurnIdx = 0;
             for (int i = 0; i < players.size(); i++) {
                 if(i == playerIdx)
-                    players.get(i).send("YOUR_TURN");
+                    players.get(i).send("MESSAGE your turn");
                 else
-                     players.get(i).send("TURN " + playerTurnIdx);
+                     players.get(i).send("MESSAGE turn of player nr " + playerTurnIdx);
             }
         }
     }

@@ -16,11 +16,9 @@ public class Player extends Thread {
         this.idx = idx;
         try {
             input = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
+                    new InputStreamReader(socket.getInputStream())
+            );
             output = new PrintWriter(socket.getOutputStream(), true);
-
-
-
 
         } catch (IOException e) {
             System.out.println("Player died: " + e);
@@ -50,12 +48,26 @@ public class Player extends Thread {
 
                 switch (request[0]) {
                     case "MOVE_REQ":
-                        game.move(this,
+                        if(game.tryMove(this,
                                 Integer.parseInt(request[1]),
                                 Integer.parseInt(request[2]),
                                 Integer.parseInt(request[3]),
                                 Integer.parseInt(request[4])
-                        );
+                           )
+                        ){
+                            game.notifyAboutMove(idx,
+                                    Integer.parseInt(request[1]),
+                                    Integer.parseInt(request[2]),
+                                    Integer.parseInt(request[3]),
+                                    Integer.parseInt(request[4])
+                            );
+                            game.nextTurn(idx);
+                        } else{
+
+                        }
+
+
+                        break;
                     case "END_TURN_REQ":
                         game.nextTurn(idx);
                         break;
@@ -74,6 +86,7 @@ public class Player extends Thread {
             System.out.println("Player died: " + e);
         } finally {
             try {
+
                 socket.close();
             } catch (IOException e) {}
         }

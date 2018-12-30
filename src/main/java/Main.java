@@ -27,7 +27,6 @@ public class Main {
                 builder.create(new ChineseCheckersClassic(),playersNumber,listener,admin);
             }
 
-
         } catch (IOException e) {
             System.out.println("Player died: " + e);
         } finally{
