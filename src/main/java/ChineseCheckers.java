@@ -2,7 +2,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public interface ChineseCheckers {
-    void setBoard();
+    void setBoard(int playersNumber);
     Board getBoard();
     Player getPlayer(int idx);
     boolean tryMove(Player player, int x,int y ,int newX,int newY);

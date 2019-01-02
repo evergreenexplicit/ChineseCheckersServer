@@ -1,9 +1,9 @@
-public class Field {
-    boolean visible;
-    int taken;
-    int playerTarget;
+class Field {
+    private boolean visible;
+    private int taken;
+    private int playerTarget;
     int playersTarget;
-    public Field(){
+    Field(){
         visible = false;
         taken = -1;
         playerTarget = -1;

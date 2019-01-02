@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ChineseCheckersClassicBuilder {
 
-    public void create(ChineseCheckers game, int playersNumber,ServerSocket listener,Player admin) throws IOException {
+    public void create(ChineseCheckers game, int playersNumber,ServerSocket listener,Player admin) throws IOException { //todo chinese checkers classic?
         ArrayList<Player> playersAtStart = new ArrayList<>();
         playersAtStart.add(admin);
         admin.setGame(game);
@@ -19,10 +19,10 @@ public class ChineseCheckersClassicBuilder {
                     );
                 }
             }
-            game.setBoard();
+            game.setBoard(playersNumber);
             game.addPlayers(playersAtStart);
 
-
+ //???????????? tu nie powinno byc czegos
         } finally {
             listener.close();
         }

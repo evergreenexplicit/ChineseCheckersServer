@@ -6,12 +6,12 @@ import java.net.Socket;
 
 public class Player extends Thread {
     BufferedReader input;
-    PrintWriter output;
-    Socket socket;
+    private PrintWriter output;
+    private Socket socket;
     int idx;
-    ChineseCheckers game;
+    private ChineseCheckers game;
 
-    public Player(Socket socket, int idx) {
+    Player(Socket socket, int idx) {
         this.socket = socket;
         this.idx = idx;
         try {
@@ -27,15 +27,16 @@ public class Player extends Thread {
         }
     }
 
-    public void setGame(ChineseCheckers game){
+    void setGame(ChineseCheckers game){
      this.game = game;
     }
 
-    public void send(String command){
+     void send(String command){
         this.output.println(command);
     }
     public void run(){
         try {
+            String request;
             // The thread is only started after everyone connects.
             output.println("MESSAGE All players connected");
 
@@ -43,40 +44,44 @@ public class Player extends Thread {
             //TODO: who's first
 
             // Repeatedly get commands from the client and process them.
-            while (true) {
-                String request[] = input.readLine().split(" ");
+            while (true) { //TODO wyjście
+                request = input.readLine();
+                String split[] = request.split(" ");
+                if (request == null)
+                      continue;
 
-                switch (request[0]) {
+                switch (split[0]) {
                     case "MOVE_REQ":
+                        System.out.println("move req");
                         if(game.tryMove(this,
-                                Integer.parseInt(request[1]),
-                                Integer.parseInt(request[2]),
-                                Integer.parseInt(request[3]),
-                                Integer.parseInt(request[4])
+                                Integer.parseInt(split[1]),
+                                Integer.parseInt(split[2]),
+                                Integer.parseInt(split[3]),
+                                Integer.parseInt(split[4])
                            )
                         ){
                             game.notifyAboutMove(idx,
-                                    Integer.parseInt(request[1]),
-                                    Integer.parseInt(request[2]),
-                                    Integer.parseInt(request[3]),
-                                    Integer.parseInt(request[4])
+                                    Integer.parseInt(split[1]),
+                                    Integer.parseInt(split[2]),
+                                    Integer.parseInt(split[3]),
+                                    Integer.parseInt(split[4])
                             );
                             game.nextTurn(idx);
-                        } else{
-
                         }
 
 
                         break;
                     case "END_TURN_REQ":
+                        System.out.println("end turn req");
                         game.nextTurn(idx);
                         break;
 
 
                     case "POSSIBLE_MOVES_REQ":
+                        System.out.println("possible moves req");
                         game.possibleMoves(this,
-                                Integer.parseInt(request[1]),
-                                Integer.parseInt(request[2]),
+                                Integer.parseInt(split[1]),
+                                Integer.parseInt(split[2]),
                                 false
                         );
                         break;
@@ -88,7 +93,9 @@ public class Player extends Thread {
             try {
 
                 socket.close();
-            } catch (IOException e) {}
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

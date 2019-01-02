@@ -1,4 +1,4 @@
-import org.junit.Test;
+/*import org.junit.Test;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -34,3 +34,4 @@ public class ChineseTest {
         assertTrue(0 == game.getBoard().getField(8,4).getTaken());
     }
 }
+*/

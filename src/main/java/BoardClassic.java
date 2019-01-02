@@ -3,7 +3,7 @@ public class BoardClassic implements Board {
     private int sideLength;
     private int vertical;
     private int horizontal;
-    public BoardClassic(int sideLength){
+    BoardClassic(int sideLength, int playersNumber){
         this.sideLength = sideLength;
         this.vertical = 4*sideLength+1;
         this.horizontal = 6*sideLength+1;

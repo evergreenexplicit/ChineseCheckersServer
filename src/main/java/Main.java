@@ -20,7 +20,7 @@ public class Main {
             String request;
 
             request = admin.input.readLine();
-            String split[] = request.split("_");
+            String split[] = request.split(" ");
             if(split[0].equals("CLASSIC")){
                 playersNumber =  Integer.parseInt(split[1]);
                 ChineseCheckersClassicBuilder builder = new ChineseCheckersClassicBuilder();
