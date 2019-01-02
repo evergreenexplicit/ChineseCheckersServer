@@ -52,7 +52,7 @@ public class Player extends Thread {
 
                 switch (split[0]) {
                     case "MOVE_REQ":
-                        System.out.println("move req");
+                        System.out.println("move req "+split[1]+" "+split[2]+" "+split[3]+" "+split[4]);
                         if(game.tryMove(this,
                                 Integer.parseInt(split[1]),
                                 Integer.parseInt(split[2]),
@@ -79,8 +79,12 @@ public class Player extends Thread {
 
                     case "POSSIBLE_MOVES_REQ":
                         System.out.println("possible moves req, player:"+ idx + "taken:" + game.getBoard().getField(Integer.parseInt(split[1]),
-                                Integer.parseInt(split[2])).getTaken()+"target"+game.getBoard().getField(Integer.parseInt(split[1]),
-                                Integer.parseInt(split[2])).getPlayerTarget());
+                                Integer.parseInt(split[2])).getTaken()+
+                                "xy:"+
+                                split[1]+" "+
+                                split[2]
+
+                        );
                         game.possibleMoves(this,
                                 Integer.parseInt(split[1]),
                                 Integer.parseInt(split[2]),
