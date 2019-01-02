@@ -30,15 +30,17 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
 
     public void possibleMoves(Player player,int x,int y,boolean onlyJumps){
-        if (playerTurnIdx != player.idx) {
-            player.send("MESSAGE Not your turn");
-            return;
-        }
-        if(player.idx != board.getField(x,y).getTaken()){
-            player.send("MESSAGE Not your pawn");
-            return;
-        }
+
+
         if(!onlyJumps) {
+            if (playerTurnIdx != player.idx) {
+                player.send("MESSAGE Not your turn");
+                return;
+            }
+            if(player.idx != board.getField(x,y).getTaken()){
+                player.send("MESSAGE Not your pawn");
+                return;
+            }
             possibleOneStepMoves(x + 2, y);
             possibleOneStepMoves(x - 2, y);
             possibleOneStepMoves(x - 1, y - 1);
