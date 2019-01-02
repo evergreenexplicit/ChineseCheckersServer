@@ -27,7 +27,8 @@ public class BoardClassic implements Board {
     public Field getField(int x,int y){
         return fields[x][y];
     }
-
+    public int getVertical(){return vertical;}
+    public int getHorizontal(){return horizontal;}
     public void createBoard(){ // TODO check
         for (int j = 0; j < vertical; j++) {
             for (int i = 0; i < horizontal; i++) {

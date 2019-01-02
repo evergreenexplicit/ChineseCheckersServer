@@ -29,7 +29,7 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
 
 
-    public void possibleMoves(Player player,int x,int y,boolean onlyJumps){
+    public void possibleMoves(Player player,int x,int y,boolean onlyJumps){ //TODO OUT OF BOUNDS
 
 
         if(!onlyJumps) {
@@ -41,6 +41,7 @@ public class ChineseCheckersClassic implements ChineseCheckers {
                 player.send("MESSAGE Not your pawn");
                 return;
             }
+
             possibleOneStepMoves(x + 2, y);
             possibleOneStepMoves(x - 2, y);
             possibleOneStepMoves(x - 1, y - 1);
@@ -70,6 +71,8 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
     }
     private void possibleOneStepMoves(int x, int y){
+        if(x < 0 || x >= board.getHorizontal() || y < 0 || y >= board.getVertical())
+            return;
         if (board.getField(x , y).getTaken() == -1
                 && board.getField(x, y).getVisible()) {
             possibleMovesList.add(x);
@@ -78,6 +81,8 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
     }
     private void possibleJumps(Player player,int middleX,int middleY, int x, int y){ //todo checking whether middle field is taken
+        if(x < 0 || x >= board.getHorizontal() || y < 0 || y >= board.getVertical())
+            return;
         if(board.getField(x,y).getTaken() == -1
                 && board.getField(x, y).getVisible()
                 && board.getField(middleX, middleY).getTaken() != -1){
