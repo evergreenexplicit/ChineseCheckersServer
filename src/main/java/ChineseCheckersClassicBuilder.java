@@ -14,7 +14,7 @@ public class ChineseCheckersClassicBuilder {
                 playersAtStart.add(new Player(listener.accept(), i));
                 playersAtStart.get(i).setGame(game);
                 for(int j = 0; j< playersAtStart.size();j++){
-                    playersAtStart.get(j).send(  "CLASSIC"  );
+                    playersAtStart.get(j).send(  "CLASSIC " + playersNumber);
                     playersAtStart.get(j).send(
                            "MESSAGE " + playersAtStart.size() + " players out of" + playersNumber
                     );
