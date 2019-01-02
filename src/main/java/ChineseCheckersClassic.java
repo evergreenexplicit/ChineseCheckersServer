@@ -31,11 +31,11 @@ public class ChineseCheckersClassic implements ChineseCheckers {
 
     public void possibleMoves(Player player,int x,int y,boolean onlyJumps){
         if (playerTurnIdx != player.idx) {
-            player.send("NOT_YOUR_TURN");
+            player.send("MESSAGE Not your turn");
             return;
         }
         if(player.idx != board.getField(x,y).getTaken()){
-            player.send("NOT_YOUR_PAWN");
+            player.send("MESSAGE Not your pawn");
             return;
         }
         if(!onlyJumps) {
@@ -105,7 +105,7 @@ public class ChineseCheckersClassic implements ChineseCheckers {
         else
             player.send("MESSAGE Invalid move");
 
-
+        possibleMovesList.clear();
         return false;
 
 
