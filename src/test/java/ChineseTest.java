@@ -12,7 +12,7 @@ public class ChineseTest {
     public void shouldMoveTest(){
         ArrayList<Player> players = new ArrayList<Player>();
         ChineseCheckersClassic  game = new ChineseCheckersClassic();
-        Player player = new Player(new Socket(),0,game);
+        Player player = new Player(new Socket(),0);
         players.add(player);
         game.addPlayers(players);
         game.addPlayers( players );
@@ -26,7 +26,7 @@ public class ChineseTest {
     @Test
     public void shouldJumpTest(){
         ChineseCheckersClassic  game = new ChineseCheckersClassic();
-        Player player = new Player(null,0,game);
+        Player player = new Player(null,0);
         game.setBoard();
         game.getBoard().fillBoardForTwo();
         game.move(player,10,2,8,4);
