@@ -78,7 +78,9 @@ public class Player extends Thread {
 
 
                     case "POSSIBLE_MOVES_REQ":
-                        System.out.println("possible moves req");
+                        System.out.println("possible moves req, player:"+ idx + "taken:" + game.getBoard().getField(Integer.parseInt(split[1]),
+                                Integer.parseInt(split[2])).getTaken()+"target"+game.getBoard().getField(Integer.parseInt(split[1]),
+                                Integer.parseInt(split[2])).getPlayerTarget());
                         game.possibleMoves(this,
                                 Integer.parseInt(split[1]),
                                 Integer.parseInt(split[2]),

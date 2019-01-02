@@ -13,57 +13,21 @@ public class BoardClassic implements Board {
                     fields[i][j] = new Field();
 
             createBoard();
+            if(playersNumber ==2)
+                fillBoardForTwo();
+            else if(playersNumber ==3)
+                fillBoardForThree();
+            else if(playersNumber ==4)
+                fillBoardForFour();
+            else if(playersNumber ==6)
+                fillBoardForSix();
 
 
     }
     public Field getField(int x,int y){
         return fields[x][y];
     }
-    public void fillBoardForTwo(){
-        fillTriangleWithIdx(2 * sideLength,0,+1,0,0);
-        fillTriangleWithTarget(2 * sideLength, 4 * sideLength,-1,0,0);
 
-        fillTriangleWithIdx(2 * sideLength, 4 * sideLength,-1,1,0);
-        fillTriangleWithTarget(2 * sideLength,0,+1,1,0);
-    }
-    public void fillBoardForThree(){
-        fillTriangleWithIdx(sideLength-1,2 * sideLength-1,-1,0,0);
-        fillTriangleWithTarget(3*sideLength,2*sideLength+1,1,0,0);
-
-        fillTriangleWithIdx(3* sideLength,2 * sideLength-1, -1,1,0);
-        fillTriangleWithTarget(sideLength-1,2*sideLength+1,1,1,0);
-
-        fillTriangleWithIdx(2 * sideLength, 4 * sideLength,-1,2,0);
-        fillTriangleWithTarget(2*sideLength,0,1,2,0);
-    }
-    void fillLineWithTarget(int x,int y,int direction,int playerIdx,int counter){
-        this.getField(x,y).setPlayerTarget(playerIdx);
-        counter++;
-        if(counter<sideLength)
-            fillLineWithTarget(x+1,y+direction,direction,playerIdx,counter);
-    }
-    void fillTriangleWithTarget(int x,int y,int direction,int playerIdx,int counter){
-        this.getField(x,y).setPlayerTarget(playerIdx);
-        counter++;
-        if(counter<sideLength) {
-            fillLineWithTarget(x + 1, y + direction, direction, playerIdx, counter);
-            fillTriangleWithTarget(x - 1, y + direction, direction, playerIdx, counter);
-        }
-    }
-    void fillLineWithIdx(int x,int y,int direction,int playerIdx,int counter){
-        this.getField(x,y).setTaken(playerIdx);
-        counter++;
-        if(counter<sideLength)
-            fillLineWithIdx(x+1,y+direction,direction,playerIdx,counter);
-    }
-    void fillTriangleWithIdx(int x, int y,int direction, int playerIdx,int counter){
-        this.getField(x,y).setTaken(playerIdx);
-        counter++;
-        if(counter<sideLength) {
-            fillLineWithIdx(x + 1, y + direction, direction, playerIdx, counter);
-            fillTriangleWithIdx(x - 1, y + direction, direction, playerIdx, counter);
-        }
-    }
     public void createBoard(){ // TODO check
         for (int j = 0; j < vertical; j++) {
             for (int i = 0; i < horizontal; i++) {
@@ -95,6 +59,57 @@ public class BoardClassic implements Board {
                 }
 
             }
+        }
+    }
+    public void fillBoardForTwo(){
+        fillTriangleWithIdx(3 * sideLength,0,+1,0,0);
+        fillTriangleWithTarget(3 * sideLength, 4 * sideLength,-1,0,0);
+
+        fillTriangleWithIdx(3 * sideLength, 4 * sideLength,-1,1,0);
+        fillTriangleWithTarget(3 * sideLength,0,+1,1,0);
+    }
+    public void fillBoardForThree(){
+        fillTriangleWithIdx(sideLength-1,2 * sideLength-1,-1,0,0);
+        fillTriangleWithTarget(5*sideLength+1,2*sideLength+1,1,0,0);
+
+        fillTriangleWithIdx(5* sideLength+1,2 * sideLength-1, -1,1,0);
+        fillTriangleWithTarget(sideLength-1,2*sideLength+1,1,1,0);
+
+        fillTriangleWithIdx(3 * sideLength, 4 * sideLength,-1,2,0);
+        fillTriangleWithTarget(3*sideLength,0,1,2,0);
+    }
+    void fillBoardForFour(){//TODO
+
+    }
+    void fillBoardForSix(){
+
+    }
+    private void fillLineWithTarget(int x, int y, int direction, int playerIdx, int counter){
+        this.getField(x,y).setPlayerTarget(playerIdx);
+        counter++;
+        if(counter<sideLength)
+            fillLineWithTarget(x+1,y+direction,direction,playerIdx,counter);
+    }
+    private void fillTriangleWithTarget(int x, int y, int direction, int playerIdx, int counter){
+        this.getField(x,y).setPlayerTarget(playerIdx);
+        counter++;
+        if(counter<sideLength) {
+            fillLineWithTarget(x + 1, y + direction, direction, playerIdx, counter);
+            fillTriangleWithTarget(x - 1, y + direction, direction, playerIdx, counter);
+        }
+    }
+    private void fillLineWithIdx(int x, int y, int direction, int playerIdx, int counter){
+        this.getField(x,y).setTaken(playerIdx);
+        counter++;
+        if(counter<sideLength)
+            fillLineWithIdx(x+1,y+direction,direction,playerIdx,counter);
+    }
+    private void fillTriangleWithIdx(int x, int y, int direction, int playerIdx, int counter){
+        this.getField(x,y).setTaken(playerIdx);
+        counter++;
+        if(counter<sideLength) {
+            fillLineWithIdx(x + 1, y + direction, direction, playerIdx, counter);
+            fillTriangleWithIdx(x - 1, y + direction, direction, playerIdx, counter);
         }
     }
 }
