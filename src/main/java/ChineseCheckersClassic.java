@@ -56,12 +56,16 @@ public class ChineseCheckersClassic implements ChineseCheckers {
         possibleJumps(player,x+1,y-1,x+2,y-2);
         possibleJumps(player,x+1,y+1,x+2,y+2);
         if(!onlyJumps){
-            if(board.getField(x,y).getPlayerTarget() == player.idx)
-                for(int i =0;i<possibleMovesList.size();i+=2)
+            if(board.getField(x,y).getPlayerTarget() == player.idx){
+                int i = 0;
+                while(i<possibleMovesList.size())
                     if(board.getField(possibleMovesList.get(i),possibleMovesList.get(i+1)).getPlayerTarget() != player.idx){
                         possibleMovesList.remove(i+1);
                         possibleMovesList.remove(i);
                     }
+                    else
+                        i+=2;
+            }
             String out ="";
             for(int i =0;i<possibleMovesList.size();i++)
                 out+=possibleMovesList.get(i) + " ";
@@ -80,7 +84,7 @@ public class ChineseCheckersClassic implements ChineseCheckers {
         }
 
     }
-    private void possibleJumps(Player player,int middleX,int middleY, int x, int y){ //todo checking whether middle field is taken
+    private void possibleJumps(Player player,int middleX,int middleY, int x, int y){
         if(x < 0 || x >= board.getHorizontal() || y < 0 || y >= board.getVertical())
             return;
         if(board.getField(x,y).getTaken() == -1

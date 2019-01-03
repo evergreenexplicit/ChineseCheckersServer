@@ -70,19 +70,52 @@ public class BoardClassic implements Board {
         fillTriangleWithTarget(3 * sideLength,0,+1,1,0);
     }
     public void fillBoardForThree(){
-        fillTriangleWithIdx(sideLength-1,2 * sideLength-1,-1,0,0);
-        fillTriangleWithTarget(5*sideLength+1,2*sideLength+1,1,0,0);
+        fillTriangleWithIdx(3 * sideLength, 0,1,0,0);
+        fillTriangleWithTarget(3*sideLength,4 * sideLength,-1,0,0);
 
-        fillTriangleWithIdx(5* sideLength+1,2 * sideLength-1, -1,1,0);
-        fillTriangleWithTarget(sideLength-1,2*sideLength+1,1,1,0);
 
-        fillTriangleWithIdx(3 * sideLength, 4 * sideLength,-1,2,0);
-        fillTriangleWithTarget(3*sideLength,0,1,2,0);
+        fillTriangleWithIdx(5* sideLength+1,2 * sideLength+1, 1,1,0);
+        fillTriangleWithTarget(sideLength-1,2*sideLength-1,-1,1,0);
+
+        fillTriangleWithIdx(sideLength-1,2 * sideLength+1,1,2,0);
+        fillTriangleWithTarget(5*sideLength+1,2*sideLength-1,-1,2,0);
+
     }
     void fillBoardForFour(){//TODO
 
+
+
+
+        fillTriangleWithIdx(5*sideLength+1,2 * sideLength-1,-1,0,0);
+        fillTriangleWithTarget(sideLength-1,2*sideLength+1,+1,0,0);
+
+        fillTriangleWithIdx(5*sideLength+1,2 * sideLength+1,1,1,0);
+        fillTriangleWithTarget(sideLength-1,2*sideLength-1,-1,1,0);
+
+        fillTriangleWithIdx(sideLength-1,2 * sideLength+1,1,2,0);
+        fillTriangleWithTarget(5*sideLength+1,2*sideLength-1,-1,2,0);
+
+        fillTriangleWithIdx(sideLength-1,2 * sideLength-1, -1,3,0);
+        fillTriangleWithTarget(5*sideLength+1,2*sideLength+1,1,3,0);
     }
     void fillBoardForSix(){
+        fillTriangleWithIdx(3 * sideLength,0,+1,0,0);
+        fillTriangleWithTarget(3 * sideLength, 4 * sideLength,-1,0,0);
+
+        fillTriangleWithIdx(5*sideLength+1,2 * sideLength-1,-1,1,0);
+        fillTriangleWithTarget(sideLength-1,2*sideLength+1,+1,1,0);
+
+        fillTriangleWithIdx(5*sideLength+1,2 * sideLength+1,1,2,0);
+        fillTriangleWithTarget(sideLength-1,2*sideLength-1,-1,2,0);
+
+        fillTriangleWithIdx(3 * sideLength, 4 * sideLength,-1,3,0);
+        fillTriangleWithTarget(3 * sideLength,0,+1,3,0);
+
+        fillTriangleWithIdx(sideLength-1,2 * sideLength+1,1,4,0);
+        fillTriangleWithTarget(5*sideLength+1,2*sideLength-1,-1,4,0);
+
+        fillTriangleWithIdx(sideLength-1,2 * sideLength-1, -1,5,0);
+        fillTriangleWithTarget(5*sideLength+1,2*sideLength+1,1,5,0);
 
     }
     private void fillLineWithTarget(int x, int y, int direction, int playerIdx, int counter){
