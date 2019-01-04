@@ -30,7 +30,7 @@ public class TurnHandler {
         }
         turnIdx = newTurnIdx;
     }
-    private boolean isPlaying(int idx){
+    public boolean isPlaying(int idx){
         return playing[idx];
     }
     void endPlaying(int playerIdx){

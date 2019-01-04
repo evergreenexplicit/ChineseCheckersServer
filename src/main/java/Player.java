@@ -24,13 +24,15 @@ public class Player extends Thread {
         private TurnHandler turnHandler;
 
 
-        Builder(Socket socket, int idx){
-            this.socket = socket;
+        Builder(int idx){
             this.idx = idx;
 
 
         }
-
+        Builder withSocket(Socket socket){
+            this.socket = socket;
+            return this;
+        }
         Builder withMoves(Moves moves){
             this.moves = moves;
 
@@ -80,15 +82,19 @@ public class Player extends Thread {
     void setMoves(Moves moves){
      this.moves = moves;
     }
+    Moves getMoves(){return moves;}
     void setNotifier(Notifier notifier){
         this.notifier = notifier;
     }
+    Notifier getNotifier(){return notifier;}
     void setTurnHandler(TurnHandler turnHandler){
         this.turnHandler = turnHandler;
     }
+    TurnHandler getTurnHandler(){return turnHandler;}
     void setWinConditions(WinConditions winConditions){
         this.winConditions = winConditions;
     }
+    WinConditions getWinConditions(){return winConditions;}
 
 
      void send(String command){

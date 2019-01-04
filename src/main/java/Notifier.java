@@ -19,5 +19,6 @@ public class Notifier {
     void addPlayers(ArrayList<Player> players){
         this.players = players;
     }
+    ArrayList<Player> getPlayers(){return players;}
     }
 

@@ -20,7 +20,8 @@ public class ChineseCheckersBuilder {
         try {
             for (int i = 1; i < playersNumber; i++) {
                 playersAtStart.add(
-                        new Player.Builder(listener.accept(), i)
+                        new Player.Builder(i)
+                                .withSocket(listener.accept())
                                 .withMoves(moves)
                                 .withTurnHandler(turnHandler)
                                 .withNotifier(notifier)
@@ -55,9 +56,4 @@ public class ChineseCheckersBuilder {
     }
 }
 
-
-//TODO:  terms of win,tests, mockito, finishing game
-//chinesecheckers zeby zwracalo stringi? oddzielne funnkcje dla inputów w playerze, i w nich move->wincondition->notify, notify i wincondition w builderze, mofyfikacja buildera
-// gracz if finished
-
-//checkers classic ma zwracac stringi, rozdzielic possiblemoves, obsluga nextTurn czesciowa, funkcje oddzielne w playerze, zeby robic wincondition i notifier, potem ogarnac w builderze to
+//konczenie gry,bot mockito?

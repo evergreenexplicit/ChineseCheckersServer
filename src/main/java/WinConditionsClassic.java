@@ -32,21 +32,25 @@ public class WinConditionsClassic implements WinConditions{
 
         }
 
-        for(int i =0 ;i<playersNumber;i++){
-            if(goodPawns[i]+badPawns[i] ==pawnsNumber && goodPawns[i] > 0){
-                lastWinner = i;
+
+            if(newTarget != -1 && goodPawns[newTarget]+badPawns[newTarget] ==pawnsNumber && goodPawns[newTarget] > 0){
+                lastWinner = newTarget;
                 playersPlaying--;
+
                 if(playersPlaying == 1)
-                    return("END " + i);
+                    return("END " + newTarget);
                 else
-                   return("WIN " + i);
+                   return("WIN " + newTarget);
             }
 
-        }
+
         return null;
 
     }
+
     public int getLastWinner(){
         return lastWinner;
     }
+    public int getGoodPawns(int idx){return goodPawns[idx];}
+    public int getBadPawns(int idx){return badPawns[idx];}
 }
