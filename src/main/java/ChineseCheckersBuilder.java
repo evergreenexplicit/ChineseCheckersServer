@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class ChineseCheckersBuilder {
 
-    public void create(Moves moves,Board board,WinConditions winConditions,String gameTypeName, int playersNumber, ServerSocket listener, Player admin) throws IOException { //todo chinese checkers classic?
+    public void create(Moves moves,Board board,WinConditions winConditions,String gameTypeName, int playersNumber, ServerSocket listener, Player admin) throws IOException {
 
         Notifier notifier = new Notifier();
         TurnHandler turnHandler = new TurnHandler(playersNumber);
@@ -27,7 +27,9 @@ public class ChineseCheckersBuilder {
                                 .withWinConditions(winConditions)
                         .build()
                 );
-
+                playersAtStart.get(i).send(
+                        "MESSAGE You are player " + i
+                );
                 for(int j = 0; j< playersAtStart.size();j++){
                     playersAtStart.get(j).send(  gameTypeName+ " " + playersNumber);
                     playersAtStart.get(j).send(

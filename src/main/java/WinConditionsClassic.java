@@ -20,7 +20,7 @@ public class WinConditionsClassic implements WinConditions{
         }
     }
 
-    public String checkConditions(int playerIdx, int x, int y, int newX, int newY,int oldTarget,int newTarget){
+    public String checkConditions(int playerIdx,int oldTarget,int newTarget){
         if(oldTarget != playerIdx && newTarget == playerIdx)
             goodPawns[playerIdx]++;
 

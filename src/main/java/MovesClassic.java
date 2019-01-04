@@ -44,9 +44,13 @@ public class MovesClassic implements Moves {
         }
 
         String out ="";
-        for(int i =0;i<possibleMovesList.size();i++)
-            out+=possibleMovesList.get(i) + " ";
-        return ("POSSIBLE_MOVES " + out);
+        if(possibleMovesList.size() ==0)
+            return ("NO_POSSIBLE_MOVES");
+        else {
+            for (int i = 0; i < possibleMovesList.size(); i++)
+                out += possibleMovesList.get(i) + " ";
+            return ("POSSIBLE_MOVES " + out);
+        }
 
 
 
@@ -108,7 +112,7 @@ public class MovesClassic implements Moves {
 
 
     }
-   private  void move(int playerIdx,int x,int y,int newX, int newY){
+     public void move(int playerIdx,int x,int y,int newX, int newY){
         board.getField(newX, newY).setTaken(playerIdx);
         board.getField(x, y).setTaken(-1);
     }

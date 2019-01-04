@@ -9,7 +9,7 @@ public class BoardClassic implements Board {
         this.horizontal = 6*sideLength+1;
         fields = new Field[6*sideLength+1][4*sideLength+1];
         for(int i = 0; i < 6*sideLength+1 ; i++)
-            for(int j = 0; j < 3*sideLength+1 ; j++)
+            for(int j = 0; j < 4*sideLength+1 ; j++)
                     fields[i][j] = new Field();
 
             createBoard();
@@ -29,7 +29,7 @@ public class BoardClassic implements Board {
     }
     public int getVertical(){return vertical;}
     public int getHorizontal(){return horizontal;}
-    public void createBoard(){ // TODO check
+    public void createBoard(){
         for (int j = 0; j < vertical; j++) {
             for (int i = 0; i < horizontal; i++) {
 
@@ -81,7 +81,7 @@ public class BoardClassic implements Board {
         fillTriangleWithTarget(5*sideLength+1,2*sideLength-1,-1,2,0);
 
     }
-    void fillBoardForFour(){//TODO
+    void fillBoardForFour(){
 
 
 

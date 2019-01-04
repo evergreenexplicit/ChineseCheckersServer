@@ -14,7 +14,7 @@ public class Player extends Thread {
     private Notifier notifier;
     private TurnHandler turnHandler;
 
-    public static class Builder{ //todo tu sie moze sypac
+    static class Builder{
 
         private Socket socket;
         private int idx;
@@ -24,34 +24,34 @@ public class Player extends Thread {
         private TurnHandler turnHandler;
 
 
-        public Builder(Socket socket, int idx){
+        Builder(Socket socket, int idx){
             this.socket = socket;
             this.idx = idx;
 
 
         }
 
-        public Builder withMoves(Moves moves){
+        Builder withMoves(Moves moves){
             this.moves = moves;
 
             return this;
         }
-        public Builder withWinConditions(WinConditions winConditions){
+        Builder withWinConditions(WinConditions winConditions){
             this.winConditions = winConditions;
 
             return this;
         }
-        public Builder withNotifier(Notifier notifier){
+        Builder withNotifier(Notifier notifier){
             this.notifier = notifier;
 
             return this;
         }
-        public Builder withTurnHandler(TurnHandler turnHandler){
+        Builder withTurnHandler(TurnHandler turnHandler){
             this.turnHandler = turnHandler;
 
             return this;
         }
-        public Player build(){
+        Player build(){
                 Player player = new Player(socket,idx);
                 player.moves = this.moves;
                 player.winConditions = this.winConditions;
@@ -110,15 +110,15 @@ public class Player extends Thread {
         String result =moves.tryMove(idx,x,y,newX,newY);
         if(result.startsWith("MOVED"))
             notifier.notifyAll(result);
+        else if(result.equals("MESSAGE Move cancelled")) {
+            send("MESSAGE Move cancelled");
+            return;
+        }
         else
             send(result);
         String conditions =
             winConditions.checkConditions(
                 idx,
-                x,
-                y,
-                newX,
-                newY,
                 moves.getBoard().getField(x,y).getPlayerTarget(),
                 moves.getBoard().getField(newX,newY).getPlayerTarget()
            );
