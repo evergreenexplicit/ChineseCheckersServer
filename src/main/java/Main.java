@@ -1,10 +1,8 @@
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
-    public static int playersNumber;
+    private static int playersNumber;
 
     public static void main(String[] args) throws Exception {
 
@@ -23,8 +21,8 @@ public class Main {
             String split[] = request.split(" ");
             if(split[0].equals("CLASSIC")){
                 playersNumber =  Integer.parseInt(split[1]);
-                ChineseCheckersClassicBuilder builder = new ChineseCheckersClassicBuilder();
-                builder.create(new ChineseCheckersClassic(),playersNumber,listener,admin);
+                ChineseCheckersBuilder builder = new ChineseCheckersBuilder();
+                builder.create(new MovesClassic(),new BoardClassic(4,playersNumber),new WinConditionsClassic(4,playersNumber),split[0],playersNumber,listener,admin);
             }
 
         } catch (IOException e) {
