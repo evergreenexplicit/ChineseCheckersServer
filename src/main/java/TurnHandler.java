@@ -51,4 +51,13 @@ public class TurnHandler {
     int getTurnIdx(){
         return turnIdx;
     }
+    int getPlayersPlaying(){
+        int counter = 0;
+        for(int i = 0;i < playersNumber;i++)
+            if(playing[i])
+                counter++;
+
+
+        return counter;
+    }
 }

@@ -3,4 +3,6 @@ public interface WinConditions {
     int getLastWinner();
     public int getGoodPawns(int idx);
     public int getBadPawns(int idx);
+    boolean getEndGame();
+     void setEndGame(boolean endGame);
 }

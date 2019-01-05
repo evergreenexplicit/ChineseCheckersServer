@@ -1,14 +1,11 @@
 public class WinConditionsClassic implements WinConditions{
     private int goodPawns[];
     private int badPawns[];
-    private int playersPlaying;
     private int pawnsNumber;
-    private int playersNumber;
     private int lastWinner;
+    private boolean endGame;
     WinConditionsClassic(int sideLength,int playersNumber){
-
-        playersPlaying = playersNumber;
-        this.playersNumber = playersNumber;
+        endGame = false;
         pawnsNumber = sideLength*(sideLength+1)/2;
         goodPawns = new int[playersNumber];
         badPawns = new int[playersNumber];
@@ -36,11 +33,7 @@ public class WinConditionsClassic implements WinConditions{
 
             if(newTarget != -1 && goodPawns[newTarget]+badPawns[newTarget] ==pawnsNumber && goodPawns[newTarget] > 0){
                 lastWinner = newTarget;
-                playersPlaying--;
 
-                if(playersPlaying == 1)
-                    return("END " + newTarget);
-                else
                    return("WIN " + newTarget);
             }
 
@@ -55,5 +48,6 @@ public class WinConditionsClassic implements WinConditions{
 
     public int getGoodPawns(int idx){return goodPawns[idx];}
     public int getBadPawns(int idx){return badPawns[idx];}
-
+     public boolean getEndGame(){return endGame;}
+    public void  setEndGame(boolean endGame){this.endGame = endGame;}
 }

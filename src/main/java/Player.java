@@ -137,17 +137,21 @@ public class Player extends Thread {
                 moves.getBoard().getField(newX,newY).getPlayerTarget()
            );
         if(conditions !=null) {
-            notifier.notifyAll(conditions);
+
             turnHandler.endPlaying(winConditions.getLastWinner());
-            //todo look for loser
-            if(conditions.startsWith("WIN")){
-                for(int i : moves.checkForLoser(winConditions.getLastWinner())) {
-                    notifier.notifyAll("LOSE " + i);
-                    turnHandler.endPlaying(winConditions.getLastWinner());
-                }
+
+            for (int i : moves.checkForLoser(winConditions.getLastWinner())) {
+                notifier.notifyAll("LOSE " + i);
+                turnHandler.endPlaying(i);
             }
-            if(conditions.startsWith("END"))
-                endGame = true;
+            if(turnHandler.getPlayersPlaying() <=1) {
+                winConditions.setEndGame(true);
+                String split[] = conditions.split(" ");
+                notifier.notifyAll("END " + split[1]);
+            } else
+                notifier.notifyAll(conditions);
+
+
         }
         endTurn();
     }
@@ -167,8 +171,10 @@ public class Player extends Thread {
             // The thread is only started after everyone connects.
             output.println("MESSAGE All players connected");
 
-            while (!endGame) { //TODO wyjście
+            while (!winConditions.getEndGame()) {
                 request = input.readLine();
+                if(request ==null)
+                    break;
                 String split[] = request.split(" ");
 
                 switch (split[0]) {
