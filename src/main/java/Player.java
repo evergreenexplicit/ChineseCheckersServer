@@ -9,11 +9,11 @@ public class Player extends Thread {
     private PrintWriter output;
     private Socket socket;
     int idx;
-    private Moves moves;
+     Moves moves;
     private WinConditions winConditions;
     private Notifier notifier;
     private TurnHandler turnHandler;
-
+    private boolean endGame = false;
     static class Builder{
 
         private Socket socket;
@@ -78,6 +78,10 @@ public class Player extends Thread {
 
         }
     }
+    Player(int idx) {
+
+        this.idx = idx;
+    }
 
     void setMoves(Moves moves){
      this.moves = moves;
@@ -131,6 +135,13 @@ public class Player extends Thread {
         if(conditions !=null) {
             notifier.notifyAll(conditions);
             turnHandler.endPlaying(winConditions.getLastWinner());
+            //todo look for loser
+            if(conditions.startsWith("WIN")){
+                for(int i : moves.checkForLoser(winConditions.getLastWinner()))
+                    notifier.notifyAll("LOSE "+ i);
+            }
+            if(conditions.startsWith("END"))
+                endGame = true;
         }
         endTurn();
     }
@@ -150,7 +161,7 @@ public class Player extends Thread {
             // The thread is only started after everyone connects.
             output.println("MESSAGE All players connected");
 
-            while (true) { //TODO wyjście
+            while (!endGame) { //TODO wyjście
                 request = input.readLine();
                 String split[] = request.split(" ");
 
@@ -188,12 +199,14 @@ public class Player extends Thread {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Player died: " + e);
+            System.out.println("Player " +idx+ " died: " + e);
+            turnHandler.endPlaying(idx);
         } finally {
             try {
 
                 socket.close();
             } catch (IOException e) {
+                turnHandler.endPlaying(idx);
                 e.printStackTrace();
             }
         }

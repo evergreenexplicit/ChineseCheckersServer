@@ -1,13 +1,14 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChineseCheckersBuilder {
 
     public void create(Moves moves,Board board,WinConditions winConditions,String gameTypeName, int playersNumber, ServerSocket listener, Player admin) throws IOException {
-
+        List<Bot> bots = new ArrayList<>();
         Notifier notifier = new Notifier();
-        TurnHandler turnHandler = new TurnHandler(playersNumber);
+        TurnHandler turnHandler = new TurnHandler(playersNumber,0,bots);
 
         ArrayList<Player> playersAtStart = new ArrayList<>();
         playersAtStart.add(admin);
@@ -28,10 +29,11 @@ public class ChineseCheckersBuilder {
                                 .withWinConditions(winConditions)
                         .build()
                 );
+                playersAtStart.get(i).send(  gameTypeName+ " " + playersNumber);
                 playersAtStart.get(i).send(
                         "MESSAGE You are player " + i
                 );
-                playersAtStart.get(i).send(  gameTypeName+ " " + playersNumber);
+
                 for(int j = 0; j< playersAtStart.size();j++){
 
                     playersAtStart.get(j).send(
@@ -42,13 +44,14 @@ public class ChineseCheckersBuilder {
             moves.setBoard(board);
             notifier.addPlayers(playersAtStart);
 
-            for(int i = 0;i<playersAtStart.size();i++)
-                playersAtStart.get(i).start();
+            for (Player aPlayersAtStart : playersAtStart) aPlayersAtStart.start();
+            for (Player aPlayersAtStart : playersAtStart) aPlayersAtStart.join();
 
 
-
-
+            System.out.println("End of the game, quitting...");
  //???????????? tu nie powinno byc czegos
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         } finally {
             listener.close();
         }
@@ -57,4 +60,3 @@ public class ChineseCheckersBuilder {
     }
 }
 
-//konczenie gry,bot mockito?

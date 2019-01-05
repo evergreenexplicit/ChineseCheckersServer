@@ -53,4 +53,5 @@ public class WinConditionsClassic implements WinConditions{
     }
     public int getGoodPawns(int idx){return goodPawns[idx];}
     public int getBadPawns(int idx){return badPawns[idx];}
+
 }

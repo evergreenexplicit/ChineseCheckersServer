@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovesClassic implements Moves {
-    private ArrayList<Player> players;
     private List<Integer> possibleMovesList= new ArrayList<>();
     private Board board;
 
@@ -117,7 +116,23 @@ public class MovesClassic implements Moves {
         board.getField(x, y).setTaken(-1);
     }
 
+    public ArrayList<Integer> checkForLoser(int idx){
+        ArrayList<Integer> losers = new ArrayList<>();
+        for(int i = 0;i < board.getHorizontal();i++)
+            for(int j = 0;j < board.getVertical();j++){
+                if(board.getField(i,j).getPlayerTarget() == idx
+                     && board.getField(i,j).getTaken() != idx
+                     && possibleMoves(board.getField(i,j).getTaken(),i,j).equals("NO_POSSIBLE_MOVES")
 
+                ) {
+                    if (!losers.contains(board.getField(i, j).getTaken()))
+                        losers.add(board.getField(i, j).getTaken());
+
+                }
+
+            }
+            return losers;
+    }
 
 
 

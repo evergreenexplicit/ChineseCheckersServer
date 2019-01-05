@@ -7,4 +7,5 @@ public interface Moves {
     void move(int playerIdx,int x,int y,int newX, int newY);
     String tryMove(int playerIdx, int x,int y ,int newX,int newY);
     String possibleMoves(int playerIdx,int x,int y);
+    ArrayList<Integer> checkForLoser(int idx);
 }

@@ -1,12 +1,20 @@
+import java.util.List;
+
 public class TurnHandler {
     boolean bot[];
     boolean playing[];
     int turnIdx;
-    int playersNumber;
-    TurnHandler(int playersNumber){
+    int playersNumber; // bots too
+    int botsNumber;
+    List<Bot> bots;
+    TurnHandler(int playersNumber,int botsNumber, List<Bot> bots){
+        this.bots = bots;
         playing = new boolean[playersNumber];
-        for(int i =0;i<playersNumber;i++)
-          playing[i] = true;
+        bot = new boolean[playersNumber];
+        for(int i =0;i<playersNumber;i++) {
+            playing[i] = true;
+            bot[i] = false;
+        }
         turnIdx = 0;
         this.playersNumber = playersNumber;
     }
@@ -29,6 +37,10 @@ public class TurnHandler {
 
         }
         turnIdx = newTurnIdx;
+        if(bot[turnIdx])
+            bots.get(turnIdx - (playersNumber - botsNumber)).makeMove();
+
+
     }
     public boolean isPlaying(int idx){
         return playing[idx];
