@@ -49,4 +49,12 @@ public class MovesClassicTest extends TestCase {
     }
     /*public void testTryMove() {
     }*/
+    public void testCheckForLosers(){
+        Moves moves = new MovesClassic();
+        moves.setBoard(new BoardClassic(4,2));
+        moves.move(0,12,0,12,8);
+        moves.move(1,12,16,12,0);
+        int result = moves.checkForLoser(1).get(0);
+        assertEquals(0,result);
+    }
 }

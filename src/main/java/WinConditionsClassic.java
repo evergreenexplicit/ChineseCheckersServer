@@ -6,6 +6,7 @@ public class WinConditionsClassic implements WinConditions{
     private int playersNumber;
     private int lastWinner;
     WinConditionsClassic(int sideLength,int playersNumber){
+
         playersPlaying = playersNumber;
         this.playersNumber = playersNumber;
         pawnsNumber = sideLength*(sideLength+1)/2;
@@ -51,6 +52,7 @@ public class WinConditionsClassic implements WinConditions{
     public int getLastWinner(){
         return lastWinner;
     }
+
     public int getGoodPawns(int idx){return goodPawns[idx];}
     public int getBadPawns(int idx){return badPawns[idx];}
 

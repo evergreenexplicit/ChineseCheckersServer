@@ -121,7 +121,11 @@ public class Player extends Thread {
         if(result.startsWith("MOVED"))
             notifier.notifyAll(result);
         else if(result.equals("MESSAGE Move cancelled")) {
-            send("MESSAGE Move cancelled");
+            send(result);
+            return;
+        }
+        else if(result.equals("MESSAGE Invalid move")) {
+            send(result);
             return;
         }
         else

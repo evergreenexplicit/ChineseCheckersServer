@@ -120,13 +120,16 @@ public class MovesClassic implements Moves {
         ArrayList<Integer> losers = new ArrayList<>();
         for(int i = 0;i < board.getHorizontal();i++)
             for(int j = 0;j < board.getVertical();j++){
+
                 if(board.getField(i,j).getPlayerTarget() == idx
                      && board.getField(i,j).getTaken() != idx
-                     && possibleMoves(board.getField(i,j).getTaken(),i,j).equals("NO_POSSIBLE_MOVES")
+                        && board.getField(i,j).getTaken() != -1
+
 
                 ) {
-                    if (!losers.contains(board.getField(i, j).getTaken()))
+                    if (!losers.contains(board.getField(i, j).getTaken())) {
                         losers.add(board.getField(i, j).getTaken());
+                    }
 
                 }
 
