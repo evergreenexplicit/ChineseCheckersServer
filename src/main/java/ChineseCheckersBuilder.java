@@ -31,8 +31,9 @@ public class ChineseCheckersBuilder {
                 playersAtStart.get(i).send(
                         "MESSAGE You are player " + i
                 );
+                playersAtStart.get(i).send(  gameTypeName+ " " + playersNumber);
                 for(int j = 0; j< playersAtStart.size();j++){
-                    playersAtStart.get(j).send(  gameTypeName+ " " + playersNumber);
+
                     playersAtStart.get(j).send(
                            "MESSAGE " + playersAtStart.size() + " players out of" + playersNumber
                     );
