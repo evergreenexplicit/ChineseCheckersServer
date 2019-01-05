@@ -1,9 +1,9 @@
 import junit.framework.TestCase;
 
 public class BoardClassicTest extends TestCase {
-    Board board;
-    int sideLength;
-    int playersNumber;
+    private Board board;
+    private int sideLength;
+    private int playersNumber;
 
     public void testGetField() {
         sideLength = 4;
@@ -39,7 +39,7 @@ public class BoardClassicTest extends TestCase {
         int counter = 0;
         for(int i = 0;i<6*sideLength+1;i++)
             for(int j =0;j<4*sideLength+1;j++)
-                if(board.getField(i,j).getVisible() == true)
+                if(board.getField(i,j).getVisible())
                     counter++;
 
                 assertEquals(121,counter);

@@ -141,8 +141,10 @@ public class Player extends Thread {
             turnHandler.endPlaying(winConditions.getLastWinner());
             //todo look for loser
             if(conditions.startsWith("WIN")){
-                for(int i : moves.checkForLoser(winConditions.getLastWinner()))
-                    notifier.notifyAll("LOSE "+ i);
+                for(int i : moves.checkForLoser(winConditions.getLastWinner())) {
+                    notifier.notifyAll("LOSE " + i);
+                    turnHandler.endPlaying(winConditions.getLastWinner());
+                }
             }
             if(conditions.startsWith("END"))
                 endGame = true;
